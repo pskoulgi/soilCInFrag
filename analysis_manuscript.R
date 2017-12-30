@@ -445,6 +445,84 @@ library(ggplot2)
           axis.text = element_text(size = 18)) +
     scale_fill_grey(start=0.5)
   #ggsave("figs/LittP_CTvsFRCompare_YlabFix.png")
+  #####################################
+  #             Table 1               #
+  #####################################
+  
+  # Scaling variables to zero-mean and unit-std.dev
+  cCycle.S <- data.frame(POINT = cCycle$POINT,
+                         SITE.TYPE=cCycle$SITE.TYPE,
+                         SITE.ID=cCycle$SITE.ID,
+                         SOIL.SIR.S=scale(cCycle$SOIL.SIR), 
+                         SOIL.C.S=scale(cCycle$SOIL.C),
+                         LITTER.CN.RATIO.S=scale(cCycle$LITTER.CN.RATIO),
+                         LITTER.P.S=scale(cCycle$LITTER.P),
+                         LITTER.WT.S=scale(cCycle$LITTER.WT),
+                         BAS.AREA.S=scale(cCycle$BAS.AREA))
+  
+  # Linear mixed effects models of the responses
+  # For fragments only
+  library(lme4)
+  
+  S.soilcLittWtFragOnlyLMM <- lmer(SOIL.C.S ~ LITTER.WT.S + (1|SITE.ID),
+                                   data=filter(cCycle.S, SITE.TYPE=="FR"),
+                                   REML=FALSE)
+  S.soilcLittPFragOnlyLMM <- lmer(SOIL.C.S ~ LITTER.P.S + (1|SITE.ID),
+                                  data=filter(cCycle.S, SITE.TYPE=="FR"),
+                                  REML=FALSE)
+  S.soilcLittCNFragOnlyLMM <- lmer(SOIL.C.S ~ LITTER.CN.RATIO.S + (1|SITE.ID),
+                                   data=filter(cCycle.S, SITE.TYPE=="FR"),
+                                   REML=FALSE)
+  S.soilcBasAreaFragOnlyLMM <- lmer(SOIL.C.S ~ BAS.AREA.S + (1|SITE.ID),
+                                    data=filter(cCycle.S, SITE.TYPE=="FR"),
+                                    REML=FALSE)
+  
+  library(MuMIn)
+  summary(model.avg(S.soilcLittPFragOnlyLMM, S.soilcLittCNFragOnlyLMM,
+                    S.soilcLittWtFragOnlyLMM, S.soilcBasAreaFragOnlyLMM))
+  
+  r.squaredGLMM(S.soilcLittWtFragOnlyLMM)
+  r.squaredGLMM(S.soilcLittPFragOnlyLMM)
+  r.squaredGLMM(S.soilcLittCNFragOnlyLMM)
+  r.squaredGLMM(S.soilcBasAreaFragOnlyLMM)
+  
+  ggplot(cCycle.S[cCycle.S$SITE.TYPE == "FR",], aes(y=SOIL.C.S, x=LITTER.WT.S,
+                                                    color=SITE.ID)) + 
+    theme_classic() + geom_point(size=3) +
+    geom_line(aes(y = predict(S.soilcLittWtFragOnlyLMM)), size = 1) +
+    xlab(expression(atop("Litter weight", (paste(gm, " ", m^{-2}))))) +
+    ylab("Soil %C \n") +
+    theme(plot.title = element_text(size=20),
+          legend.position = "none",
+          #legend.title=element_blank(),
+          #legend.text = element_text(size = 15),
+          axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+          axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+          axis.title = element_text(size = 20),
+          axis.text = element_text(size = 18)) #+
+  #scale_color_discrete(labels=as.character(soilNLittMeans$SITE.NAME))
+  #ggsave("figs/SoilCvsLitterWt_FragInt_ModelFitPlots.png")
+  
+  S.sirLittPFragOnlyLMM <- lmer(SOIL.SIR.S ~ LITTER.P.S + (1|SITE.ID),
+                                data=filter(cCycle.S, SITE.TYPE=="FR"),
+                                REML=FALSE)
+  S.sirLittCNFragOnlyLMM <- lmer(SOIL.SIR.S ~ LITTER.CN.RATIO.S + (1|SITE.ID),
+                                 data=filter(cCycle.S, SITE.TYPE=="FR"),
+                                 REML=FALSE)
+  S.sirLittWtFragOnlyLMM <- lmer(SOIL.SIR.S ~ LITTER.WT.S + (1|SITE.ID),
+                                 data=filter(cCycle.S, SITE.TYPE=="FR"),
+                                 REML=FALSE)
+  S.sirBasAreaFragOnlyLMM <- lmer(SOIL.SIR.S ~ BAS.AREA.S + (1|SITE.ID),
+                                  data=filter(cCycle.S, SITE.TYPE=="FR"),
+                                  REML=FALSE)
+  summary(model.avg(S.sirLittPFragOnlyLMM, S.sirLittCNFragOnlyLMM,
+                    S.sirLittWtFragOnlyLMM, S.sirBasAreaFragOnlyLMM))
+  r.squaredGLMM(S.sirLittPFragOnlyLMM)
+  r.squaredGLMM(S.sirLittCNFragOnlyLMM)
+  r.squaredGLMM(S.sirLittWtFragOnlyLMM)
+  r.squaredGLMM(S.sirBasAreaFragOnlyLMM)
+  
+  # --------------------------------------------------------------------------------
   
   #####################################
   #            Figure 7               #
