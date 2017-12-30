@@ -632,42 +632,4 @@ library(ggplot2)
     scale_fill_grey(labels=c("Contiguous", "Fragment"), start=0.5)
   #ggsave("figs/TreeSizeClassDistr_PropStems_YlabFix.png")
   
-  # Scaling variables to zero-mean and unit-std.dev
-  cCycle.S <- data.frame(POINT = cCycle$POINT,
-                         SITE.TYPE=cCycle$SITE.TYPE,
-                         SITE.ID=cCycle$SITE.ID,
-                         SOIL.SIR.S=scale(cCycle$SOIL.SIR), 
-                         SOIL.C.S=scale(cCycle$SOIL.C),
-                         LITTER.CN.RATIO.S=scale(cCycle$LITTER.CN.RATIO),
-                         LITTER.P.S=scale(cCycle$LITTER.P),
-                         LITTER.WT.S=scale(cCycle$LITTER.WT),
-                         BAS.AREA.S=scale(cCycle$BAS.AREA))
-  
-  
-  # Linear mixed effects models of the responses
-  library(lme4)
-  
-  library(MuMIn)
-  
-  S.soilcLittWtFragOnlyLMM <- lmer(SOIL.C.S ~ LITTER.WT.S + (1|SITE.ID),
-                                   data=filter(cCycle.S, SITE.TYPE=="FR"),
-                                   REML=FALSE)
-  r.squaredGLMM(S.soilcLittWtFragOnlyLMM)
-  
-  ggplot(cCycle.S[cCycle.S$SITE.TYPE == "FR",], aes(y=SOIL.C.S, x=LITTER.WT.S,
-                                                    color=SITE.ID)) + 
-    theme_classic() + geom_point(size=3) +
-    geom_line(aes(y = predict(S.soilcLittWtFragOnlyLMM)), size = 1) +
-    xlab(expression(atop("Litter weight", (paste(gm, " ", m^{-2}))))) +
-    ylab("Soil %C \n") +
-    theme(plot.title = element_text(size=20),
-          legend.position = "none",
-          #legend.title=element_blank(),
-          #legend.text = element_text(size = 15),
-          axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-          axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-          axis.title = element_text(size = 20),
-          axis.text = element_text(size = 18)) #+
-  #scale_color_discrete(labels=as.character(soilNLittMeans$SITE.NAME))
-  #ggsave("figs/SoilCvsLitterWt_FragInt_ModelFitPlots.png")
 }
