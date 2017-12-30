@@ -605,42 +605,6 @@ library(ggplot2)
   treeDensS5 <- filter(treeDensBySizeClass, SIZE.CLASS=="S5")
   t.test(treeDensS5$PROP.STEMS ~ treeDensS5$SITE.TYPE)
   
-  t.test(treeDensS1$TREE.DENS ~ treeDensS1$SITE.TYPE)
-  t.test(treeDensS2$TREE.DENS ~ treeDensS2$SITE.TYPE)
-  t.test(treeDensS3$TREE.DENS ~ treeDensS3$SITE.TYPE)
-  t.test(treeDensS4$TREE.DENS ~ treeDensS4$SITE.TYPE)
-  t.test(treeDensS5$TREE.DENS ~ treeDensS5$SITE.TYPE)
-  
-  ggplot(treeDensMeans, aes(y=MEAN, x=SIZE.CLASS, fill=SITE.TYPE)) +
-    theme_classic() +
-    geom_bar(position="dodge", stat="identity") +
-    geom_errorbar(aes(ymin=MEAN-SE, ymax=MEAN+SE), width=.2, position=position_dodge(0.9)) +
-    scale_x_discrete(labels=c(paste(binBounds[1]*100,binBounds[2]*100, sep=" - "),
-                              paste(binBounds[2]*100,binBounds[3]*100, sep=" - "),
-                              paste(binBounds[3]*100,binBounds[4]*100, sep=" - "),
-                              paste(binBounds[4]*100,binBounds[5]*100, sep=" - "),
-                              paste(binBounds[5]*100,binBounds[6]*100, sep=" - "))) +
-    xlab("\n DBH (cm) class") + ylab("Stems/ha \n") + ylim(0,200) +
-    theme(legend.position=c(0.85, 0.85),
-          legend.title=element_blank(),
-          legend.text = element_text(size = 15),
-          axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-          axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-          axis.title = element_text(size = 18),
-          axis.text = element_text(size = 15)) +
-    annotate("text", x = treeDensMeans$SIZE.CLASS[1], 
-             y = treeDensMeans$MEAN[1] + (1.5*treeDensMeans$SE[1]),
-             label = "*", size=8) +
-    annotate("text", x = treeDensMeans$SIZE.CLASS[2], 
-             y = treeDensMeans$MEAN[2] + (1.5*treeDensMeans$SE[2]),
-             label = "*", size=8) +
-    annotate("text", x = treeDensMeans$SIZE.CLASS[3], 
-             y = treeDensMeans$MEAN[3] + (1.5*treeDensMeans$SE[3]),
-             label = "*", size=8) +
-    scale_fill_grey(labels=c("Contiguous", "Fragment"), start=0.5)
-  #ggsave("figs/TreeSizeClassDistr_StemsPerHa.png")
-  
-  
   ggplot(treeStemPropsMeans, aes(y=MEAN, x=SIZE.CLASS, fill=SITE.TYPE)) +
     theme_classic() +
     geom_bar(position="dodge", stat="identity") + 
