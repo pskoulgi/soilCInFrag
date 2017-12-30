@@ -545,54 +545,53 @@ library(ggplot2)
               BAS.AREA.SE = sd(BAS.AREA)/sqrt(n()))
   
   
+  # #####################################
+  # #            Figure 9               #
+  # #####################################
+  # 
+  # # Comparing community avg v/s my sample avg litter qual
+  # sampleAvgLittQual <- cCycle %>% filter(SITE.ID == "CT1" |       # Kokka 1
+  #                                          SITE.ID == "CT2" |       # Kokka 2
+  #                                          SITE.ID == "FR1" |       # Rudraguppe
+  #                                          SITE.ID == "FR3" |       # Arji
+  #                                          SITE.ID == "FR6") %>%    # Arapattu
+  #   group_by(SITE.ID) %>% 
+  #   summarise(MEAN= mean(LITTER.CN.RATIO, na.rm=T),
+  #             SE=sd(LITTER.CN.RATIO, na.rm=T)/sqrt(n()),
+  #             SITE.TYPE=first(SITE.TYPE)) %>%
+  #   group_by(SITE.TYPE) %>%
+  #   summarise(LITT.CTON.MEAN=mean(MEAN), 
+  #             LITT.CTON.SE=sd(MEAN, na.rm=T)/sqrt(n()))
+  # levels(sampleAvgLittQual$SITE.TYPE)[levels(sampleAvgLittQual$SITE.TYPE)=="FR"] <-
+  #   "FRAGMENT"
+  # levels(sampleAvgLittQual$SITE.TYPE)[levels(sampleAvgLittQual$SITE.TYPE)=="CT"] <-
+  #   "CONTROL"
+  # sampleAvgLittQual <- bind_cols(data.frame(NAME=c("Sample Avg.", "Sample Avg.")),
+  #                                sampleAvgLittQual)
+  # littQualCompare <- bind_rows(commAvgLittQual, sampleAvgLittQual)
+  # ggplot(littQualCompare, aes(y=LITT.CTON.MEAN, x=NAME, fill=SITE.TYPE)) +
+  #   theme_classic() +
+  #   geom_bar(position="dodge", stat="identity") +
+  #   geom_errorbar(aes(ymin=LITT.CTON.MEAN-(LITT.CTON.SE),
+  #                     ymax=LITT.CTON.MEAN+(LITT.CTON.SE)), width=.1,
+  #                 position=position_dodge(0.9)) +
+  #   xlab("Estimate type") + ylab("Average litter C/N \n") +
+  #   theme(legend.title=element_blank(),
+  #         legend.text = element_text(size = 15),
+  #         legend.position = c(0.15, 0.9),
+  #         axis.title.x=element_blank(), 
+  #         axis.ticks=element_blank(),
+  #         axis.line.x = element_line(colour='black',size=0.5,linetype='solid'),
+  #         axis.line.y = element_line(colour='black',size=0.5,linetype='solid'),
+  #         axis.title = element_text(size = 24),
+  #         #axis.title.y = element_text(angle = 0, margin=margin(0,20,0,0)),
+  #         axis.text = element_text(size = 18)) +
+  #   scale_x_discrete(labels=
+  #                      c("Community \n weighted-average", "Sample average")) +
+  #   scale_fill_grey(labels=c("Contiguous", "Fragment"), start=0.5)
+  # #ggsave("figs/LittQualCompare_CommVsSampleAvg_YlabFix.png")
+  # 
   #####################################
-  #            Figure 9               #
-  #####################################
-  
-  # Comparing community avg v/s my sample avg litter qual
-  sampleAvgLittQual <- cCycle %>% filter(SITE.ID == "CT1" |       # Kokka 1
-                                           SITE.ID == "CT2" |       # Kokka 2
-                                           SITE.ID == "FR1" |       # Rudraguppe
-                                           SITE.ID == "FR3" |       # Arji
-                                           SITE.ID == "FR6") %>%    # Arapattu
-    group_by(SITE.ID) %>% 
-    summarise(MEAN= mean(LITTER.CN.RATIO, na.rm=T),
-              SE=sd(LITTER.CN.RATIO, na.rm=T)/sqrt(n()),
-              SITE.TYPE=first(SITE.TYPE)) %>%
-    group_by(SITE.TYPE) %>%
-    summarise(LITT.CTON.MEAN=mean(MEAN), 
-              LITT.CTON.SE=sd(MEAN, na.rm=T)/sqrt(n()))
-  levels(sampleAvgLittQual$SITE.TYPE)[levels(sampleAvgLittQual$SITE.TYPE)=="FR"] <-
-    "FRAGMENT"
-  levels(sampleAvgLittQual$SITE.TYPE)[levels(sampleAvgLittQual$SITE.TYPE)=="CT"] <-
-    "CONTROL"
-  sampleAvgLittQual <- bind_cols(data.frame(NAME=c("Sample Avg.", "Sample Avg.")),
-                                 sampleAvgLittQual)
-  littQualCompare <- bind_rows(commAvgLittQual, sampleAvgLittQual)
-  ggplot(littQualCompare, aes(y=LITT.CTON.MEAN, x=NAME, fill=SITE.TYPE)) +
-    theme_classic() +
-    geom_bar(position="dodge", stat="identity") +
-    geom_errorbar(aes(ymin=LITT.CTON.MEAN-(LITT.CTON.SE),
-                      ymax=LITT.CTON.MEAN+(LITT.CTON.SE)), width=.1,
-                  position=position_dodge(0.9)) +
-    xlab("Estimate type") + ylab("Average litter C/N \n") +
-    theme(legend.title=element_blank(),
-          legend.text = element_text(size = 15),
-          legend.position = c(0.15, 0.9),
-          axis.title.x=element_blank(), 
-          axis.ticks=element_blank(),
-          axis.line.x = element_line(colour='black',size=0.5,linetype='solid'),
-          axis.line.y = element_line(colour='black',size=0.5,linetype='solid'),
-          axis.title = element_text(size = 24),
-          #axis.title.y = element_text(angle = 0, margin=margin(0,20,0,0)),
-          axis.text = element_text(size = 18)) +
-    scale_x_discrete(labels=
-                       c("Community \n weighted-average", "Sample average")) +
-    scale_fill_grey(labels=c("Contiguous", "Fragment"), start=0.5)
-  #ggsave("figs/LittQualCompare_CommVsSampleAvg_YlabFix.png")
-  
-  #####################################
-  #            Figure 10              #
   #####################################
   # Size class-wise plotting of tree community
   treeDensS1 <- filter(treeDensBySizeClass, SIZE.CLASS=="S1")
