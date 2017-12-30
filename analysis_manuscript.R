@@ -309,22 +309,18 @@ library(ggplot2)
     geom_boxplot() + guides(fill=F) +
     stat_summary(fun.y=mean, geom="point", shape=18, size=6) +
     scale_x_discrete(labels=
-                       c("Contiguous \n (N = 6 sites)", "Fragmented \n (N = 6 sites)")) +    
+                       c("Contiguous", "Fragmented")) +    
     ylab("Soil %C \n") +
     theme(legend.title=element_blank(),
           axis.title.x=element_blank(), 
-          axis.ticks=element_blank(),
+          #axis.ticks=element_blank(),
           axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.title = element_text(size = 18),
           #axis.title.y = element_text(angle = 0, margin=margin(0,20,0,0)),
           axis.text = element_text(size = 18)) +
     scale_fill_grey(start=0.5)
-  #ggsave("figs/SoilC_CTvsFRCompare_YlabFix.png")
-  
-  #####################################
-  #            Figure 3               #
-  #####################################
+  # ggsave("figs/SoilC_CTvsFRCompare.eps")
   
   sirMeansPerSite <- cCycle %>% group_by(SITE.ID) %>% 
     summarise(SITE.MEAN = mean(SOIL.SIR, na.rm=T),
@@ -336,21 +332,21 @@ library(ggplot2)
     geom_boxplot() + guides(fill=F) +
     stat_summary(fun.y=mean, geom="point", shape=18, size=6) +
     scale_x_discrete(labels=
-                       c("Contiguous \n (N = 6 sites)", "Fragmented \n (N = 6 sites)")) +
+                       c("Contiguous", "Fragmented")) +
     ylab(expression(atop("Soil SIR", (paste(mu, "gm C-", CO[2], " ", gm^{-1}, " ", hr^{-1}))))) +
     theme(legend.title=element_blank(),
           axis.title.x=element_blank(), 
-          axis.ticks=element_blank(),
+          #axis.ticks=element_blank(),
           axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.title = element_text(size = 18),
           #axis.title.y = element_text(angle = 0, margin=margin(0,20,0,0)),
           axis.text = element_text(size = 18)) +
     scale_fill_grey(start=0.5)
-  #ggsave("figs/SIR_CTvsFRCompare_YlabFix.png")
+  # ggsave("figs/SIR_CTvsFRCompare.eps")
   
   #####################################
-  #            Figure 6               #
+  #            Figure 3               #
   #####################################
   
   # Comparing average predictor values between FR and CT
@@ -364,18 +360,18 @@ library(ggplot2)
     geom_boxplot() + guides(fill=F) +
     stat_summary(fun.y=mean, geom="point", shape=18, size=6) +
     scale_x_discrete(labels=
-                       c("Contiguous \n (N = 6 sites)", "Fragment \n (N = 6 sites)")) +    
+                       c("Contiguous", "Fragment")) +    
     ylab(expression(atop("Litter weight", (paste(gm, " ", m^{-2}))))) +
     theme(legend.title=element_blank(),
           axis.title.x=element_blank(), 
-          axis.ticks=element_blank(),
+          #axis.ticks=element_blank(),
           axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.title = element_text(size = 24),
           #axis.title.y = element_text(angle = 0, margin=margin(0,20,0,0)),
           axis.text = element_text(size = 18)) +
     scale_fill_grey(start=0.5)
-  #ggsave("figs/LittWt_CTvsFRCompare_YlabFix.png")
+  # ggsave("figs/LittWt_CTvsFRCompare.eps")
   
   littCNMeansPerSite <- cCycle %>% group_by(SITE.ID) %>% 
     summarise(SITE.MEAN = mean(LITTER.CN.RATIO),
@@ -387,18 +383,18 @@ library(ggplot2)
     geom_boxplot() + guides(fill=F) +
     stat_summary(fun.y=mean, geom="point", shape=18, size=6) +
     scale_x_discrete(labels=
-                       c("Contiguous \n (N = 6 sites)", "Fragment \n (N = 6 sites)")) +    
+                       c("Contiguous", "Fragment")) +    
     ylab("Litter C/N \n") +
     theme(legend.title=element_blank(),
           axis.title.x=element_blank(), 
-          axis.ticks=element_blank(),
+          #axis.ticks=element_blank(),
           axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.title = element_text(size = 24),
           #axis.title.y = element_text(angle = 0, margin=margin(0,20,0,0)),
           axis.text = element_text(size = 18)) +
     scale_fill_grey(start=0.5)
-  #ggsave("figs/LittCN_CTvsFRCompare_YlabFix.png")
+  # ggsave("figs/LittCN_CTvsFRCompare.eps")
   
   basAreaMeansPerSite <- cCycle %>% group_by(SITE.ID) %>% 
     summarise(SITE.MEAN = mean(LITTER.CN.RATIO),
@@ -410,18 +406,18 @@ library(ggplot2)
     geom_boxplot() + guides(fill=F) +
     stat_summary(fun.y=mean, geom="point", shape=18, size=6) +
     scale_x_discrete(labels=
-                       c("Contiguous \n (N = 6 sites)", "Fragment \n (N = 6 sites)")) +    
+                       c("Contiguous", "Fragment")) +    
     ylab(expression(atop("Basal area", (paste(m^{2}, " ", ha^{-1}))))) +
     theme(legend.title=element_blank(),
           axis.title.x=element_blank(), 
-          axis.ticks=element_blank(),
+          #axis.ticks=element_blank(),
           axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.title = element_text(size = 24),
           #axis.title.y = element_text(angle = 0, margin=margin(0,20,0,0)),
           axis.text = element_text(size = 18)) +
     scale_fill_grey(start=0.5)
-  #ggsave("figs/BasArea_CTvsFRCompare_YlabFix.png")
+  # ggsave("figs/BasArea_CTvsFRCompare.eps")
   
   littPMeansPerSite <- cCycle %>% group_by(SITE.ID) %>% 
     summarise(SITE.MEAN = mean(LITTER.P),
@@ -433,18 +429,19 @@ library(ggplot2)
     geom_boxplot() + guides(fill=F) +
     stat_summary(fun.y=mean, geom="point", shape=18, size=6) +
     scale_x_discrete(labels=
-                       c("Contiguous \n (N = 6 sites)", "Fragment \n (N = 6 sites)")) +    
+                       c("Contiguous", "Fragment")) +    
     ylab("Litter %P \n") +
     theme(legend.title=element_blank(),
           axis.title.x=element_blank(), 
-          axis.ticks=element_blank(),
+          #axis.ticks=element_blank(),
           axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
           axis.title = element_text(size = 24),
           #axis.title.y = element_text(angle = 0, margin=margin(0,20,0,0)),
           axis.text = element_text(size = 18)) +
     scale_fill_grey(start=0.5)
-  #ggsave("figs/LittP_CTvsFRCompare_YlabFix.png")
+  # ggsave("figs/LittP_CTvsFRCompare.eps")
+  
   #####################################
   #             Table 1               #
   #####################################
@@ -592,6 +589,7 @@ library(ggplot2)
   # #ggsave("figs/LittQualCompare_CommVsSampleAvg_YlabFix.png")
   # 
   #####################################
+  #            Figure 4               #
   #####################################
   # Size class-wise plotting of tree community
   treeDensS1 <- filter(treeDensBySizeClass, SIZE.CLASS=="S1")
@@ -615,7 +613,7 @@ library(ggplot2)
                               paste(binBounds[3]*100,binBounds[4]*100,sep=" - "),
                               paste(binBounds[4]*100,binBounds[5]*100,sep=" - "),
                               paste(binBounds[5]*100,binBounds[6]*100,sep=" - "))) +
-    xlab("\n DBH (cm) class \n (Diameter at breast height)") + 
+    xlab("\n DBH (cm) class") + 
     ylab("Proportion \n of stems") +
     ylim(0,0.4) +
     theme(legend.position=c(0.85, 0.85),
@@ -630,6 +628,5 @@ library(ggplot2)
              y = treeStemPropsMeans$MEAN[9] + (1.5*treeStemPropsMeans$SE[9]),
              label = "**", size=8) +
     scale_fill_grey(labels=c("Contiguous", "Fragment"), start=0.5)
-  #ggsave("figs/TreeSizeClassDistr_PropStems_YlabFix.png")
-  
+  # ggsave("figs/TreeSizeClassDistr_PropStems.eps")
 }
